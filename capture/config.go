@@ -1,10 +1,11 @@
 package capture
 
 import (
-	log "github.com/sirupsen/logrus"
-	sd "github.com/zr-hebo/sniffer-agent/session-dealer"
 	"math/rand"
 	"time"
+
+	sd "github.com/jetlwx/sniffer-agent/session-dealer"
+	log "github.com/sirupsen/logrus"
 )
 
 var (

@@ -1,8 +1,8 @@
 package session_dealer
 
 import (
-	"github.com/zr-hebo/sniffer-agent/model"
-	"github.com/zr-hebo/sniffer-agent/session-dealer/mysql"
+	"github.com/jetlwx/sniffer-agent/model"
+	"github.com/jetlwx/sniffer-agent/session-dealer/mysql"
 )
 
 func NewSession(sessionKey, clientIP *string, clientPort int, srcIP *string, srcPort int, serverIP *string, serverPort int,
@@ -16,7 +16,7 @@ func NewSession(sessionKey, clientIP *string, clientPort int, srcIP *string, src
 	return
 }
 
-func CheckParams()  {
+func CheckParams() {
 	switch serviceType {
 	case ServiceTypeMysql:
 		mysql.CheckParams()

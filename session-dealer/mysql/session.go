@@ -5,10 +5,10 @@ import (
 	"sync"
 	"time"
 
+	"github.com/jetlwx/sniffer-agent/communicator"
+	"github.com/jetlwx/sniffer-agent/model"
 	"github.com/pingcap/tidb/util/hack"
 	log "github.com/sirupsen/logrus"
-	"github.com/zr-hebo/sniffer-agent/communicator"
-	"github.com/zr-hebo/sniffer-agent/model"
 )
 
 type MysqlSession struct {
@@ -323,11 +323,11 @@ func (ms *MysqlSession) GenerateQueryPiece() (qp model.QueryPiece) {
 	return mqp
 }
 
-func filterQueryPieceBySQL(mqp *model.PooledMysqlQueryPiece, querySQL []byte) (*model.PooledMysqlQueryPiece) {
+func filterQueryPieceBySQL(mqp *model.PooledMysqlQueryPiece, querySQL []byte) *model.PooledMysqlQueryPiece {
 	if mqp == nil || querySQL == nil {
 		return nil
 
-	} else if (uselessSQLPattern.Match(querySQL)) {
+	} else if uselessSQLPattern.Match(querySQL) {
 		return nil
 	}
 

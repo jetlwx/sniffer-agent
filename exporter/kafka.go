@@ -6,27 +6,27 @@ import (
 	"strings"
 
 	"github.com/Shopify/sarama"
+	"github.com/jetlwx/sniffer-agent/model"
 	log "github.com/sirupsen/logrus"
-	"github.com/zr-hebo/sniffer-agent/model"
 )
 
 var (
-	kafkaServer string
+	kafkaServer  string
 	kafkaGroupID string
-	asyncTopic string
-	syncTopic string
-	compress string
-    compressType sarama.CompressionCodec
+	asyncTopic   string
+	syncTopic    string
+	compress     string
+	compressType sarama.CompressionCodec
 )
 
 func init() {
 	flag.StringVar(
-	 	&kafkaServer, "kafka-server", "", "kafka server address. No default value")
+		&kafkaServer, "kafka-server", "", "kafka server address. No default value")
 	flag.StringVar(
-	 	&kafkaGroupID,
+		&kafkaGroupID,
 		"kafka-group-id", "", "kafka service group. No default value")
 	flag.StringVar(
-	 	&asyncTopic,
+		&asyncTopic,
 		"kafka-async-topic", "", "kafka async send topic. No default value")
 	flag.StringVar(
 		&syncTopic,
@@ -39,11 +39,11 @@ func init() {
 type kafkaExporter struct {
 	asyncProducer sarama.AsyncProducer
 	syncProducer  sarama.SyncProducer
-	asyncTopic  string
-	syncTopic  string
+	asyncTopic    string
+	syncTopic     string
 }
 
-func checkParams()  {
+func checkParams() {
 	switch compress {
 	case "":
 		compressType = sarama.CompressionNone
@@ -64,7 +64,7 @@ func checkParams()  {
 	params["kafka-async-topic"] = asyncTopic
 	params["kafka-sync-topic"] = syncTopic
 	for param := range params {
-		if len(params[param]) < 1{
+		if len(params[param]) < 1 {
 			panic(fmt.Sprintf("%s cannot be empty", param))
 		}
 	}
@@ -109,7 +109,7 @@ func NewKafkaExporter() (ke *kafkaExporter) {
 	return
 }
 
-func (ke *kafkaExporter) Export (qp model.QueryPiece) (err error){
+func (ke *kafkaExporter) Export(qp model.QueryPiece) (err error) {
 	defer func() {
 		if err != nil {
 			log.Errorf("export with kafka failed <-- %s", err.Error())
@@ -119,7 +119,7 @@ func (ke *kafkaExporter) Export (qp model.QueryPiece) (err error){
 	if qp.NeedSyncSend() {
 		// log.Debugf("deal ddl: %s\n", *qp.String())
 
-		msg := &sarama.ProducerMessage {
+		msg := &sarama.ProducerMessage{
 			Topic: ke.syncTopic,
 			Value: sarama.ByteEncoder(qp.Bytes()),
 		}
@@ -130,7 +130,7 @@ func (ke *kafkaExporter) Export (qp model.QueryPiece) (err error){
 
 	} else {
 		// log.Debugf("deal non ddl: %s", *qp.String())
-		msg := &sarama.ProducerMessage {
+		msg := &sarama.ProducerMessage{
 			Topic: ke.asyncTopic,
 			Value: sarama.ByteEncoder(qp.Bytes()),
 		}

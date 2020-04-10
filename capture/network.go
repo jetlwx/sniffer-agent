@@ -11,14 +11,14 @@ import (
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/layers"
 	"github.com/google/gopacket/pcap"
-	"github.com/zr-hebo/sniffer-agent/communicator"
+	"github.com/jetlwx/sniffer-agent/communicator"
 	"golang.org/x/net/bpf"
 
 	"github.com/google/gopacket/pcapgo"
+	"github.com/jetlwx/sniffer-agent/model"
+	sd "github.com/jetlwx/sniffer-agent/session-dealer"
 	pp "github.com/pires/go-proxyproto"
 	log "github.com/sirupsen/logrus"
-	"github.com/zr-hebo/sniffer-agent/model"
-	sd "github.com/zr-hebo/sniffer-agent/session-dealer"
 )
 
 var (
@@ -244,7 +244,7 @@ func readFromServerPackage(
 	}
 
 	tcpPayload := tcpPkt.Payload
-	if (len(tcpPayload) < 1) {
+	if len(tcpPayload) < 1 {
 		return
 	}
 
@@ -280,7 +280,7 @@ func readToServerPackage(
 	}
 
 	tcpPayload := tcpPkt.Payload
-	if (len(tcpPayload) < 1) {
+	if len(tcpPayload) < 1 {
 		return
 	}
 

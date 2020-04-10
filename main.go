@@ -5,22 +5,22 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/jetlwx/sniffer-agent/capture"
+	"github.com/jetlwx/sniffer-agent/communicator"
+	"github.com/jetlwx/sniffer-agent/exporter"
+	sd "github.com/jetlwx/sniffer-agent/session-dealer"
 	log "github.com/sirupsen/logrus"
-	"github.com/zr-hebo/sniffer-agent/capture"
-	"github.com/zr-hebo/sniffer-agent/exporter"
-	"github.com/zr-hebo/sniffer-agent/communicator"
-	sd "github.com/zr-hebo/sniffer-agent/session-dealer"
 )
 
 var (
 	logLevel string
 )
 
-func init()  {
+func init() {
 	flag.StringVar(&logLevel, "log_level", "warn", "log level. Default is info")
 }
 
-func initLog()  {
+func initLog() {
 	log.SetFormatter(&log.TextFormatter{})
 	log.SetOutput(os.Stdout)
 	switch logLevel {
@@ -37,7 +37,7 @@ func initLog()  {
 	}
 }
 
-func main()  {
+func main() {
 	flag.Parse()
 	initLog()
 	sd.CheckParams()
@@ -46,7 +46,7 @@ func main()  {
 	mainServer()
 }
 
-func mainServer()  {
+func mainServer() {
 	ept := exporter.NewExporter()
 	networkCard := capture.NewNetworkCard()
 	log.Info("begin listen")
