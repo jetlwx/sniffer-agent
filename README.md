@@ -1,4 +1,5 @@
 # fork from https://github.com/zr-hebo/sniffer-agent
+# 增加 发送到ClickHouse的支持
 # Sniffer-Agent
 
 
